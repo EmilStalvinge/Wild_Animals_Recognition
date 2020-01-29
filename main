@@ -1,0 +1,17 @@
+#import cv2
+
+
+#img = cv2.imread("djur/5300.jpg")
+#cv2.imshow("hej", img)
+#cv2.waitKey(0)
+
+
+
+import glob
+import cv2 as cv
+
+path = glob.glob("djur*.jpg")
+cv_img = []
+for img in path:
+    n = cv.imread(img)
+    cv_img.append(n)
