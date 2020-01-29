@@ -1,17 +1,13 @@
-#import cv2
+import cv2
+import os
 
+def load_images_from_folder(folder):
+    images = []
+    for filename in os.listdir(folder):
+        img = cv2.imread(os.path.join(folder,filename))
+        if img is not None:
+            images.append(img)
+    return images
 
-#img = cv2.imread("djur/5300.jpg")
-#cv2.imshow("hej", img)
-#cv2.waitKey(0)
-
-
-
-import glob
-import cv2 as cv
-
-path = glob.glob("djur*.jpg")
-cv_img = []
-for img in path:
-    n = cv.imread(img)
-    cv_img.append(n)
+images = load_images_from_folder("C:/Users/Jonas/Documents/X4/Bildanalys_2/Bild_2_projekt/original")
+print(len(images))
