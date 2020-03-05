@@ -1,0 +1,93 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import cv2
+import pickle
+
+
+DATADIR = "D:/Finished_data_cropped/"
+CATEGORIES = ["fox_all", "hare", "lynx", "deer", "bear_all", "boar_all"]
+
+split_factor = 0.8
+IMG_SIZE = 256
+
+#new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))
+#plt.imshow(new_array, cmap= 'gray')
+#plt.imshow(new_array)
+#plt.show()
+
+training_data = []
+
+def create_training_data():
+    # create a CLAHE object (Arguments are optional).
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    count =0
+    for category in CATEGORIES:
+        path = os.path.join(DATADIR, category)  # path to cats or dogs dir
+        class_num = CATEGORIES.index(category)
+        a = 0
+        print(count)
+        count += 1
+        for img in os.listdir(path):
+            if a < 5000:
+                a = a+1
+                try:
+                    img_gray = cv2.imread(os.path.join(path, img), cv2.IMREAD_GRAYSCALE)
+                    img_hist = clahe.apply(img_gray)
+                    new_array = cv2.resize(img_hist, (IMG_SIZE, IMG_SIZE))
+                    training_data.append([new_array, class_num])
+                except Exception as e:
+                    print("corrupted file")
+                    pass
+            else:
+                break
+
+
+create_training_data()
+print(len(training_data))
+
+import random
+random.shuffle(training_data)
+
+#for sample in training_data[:10]:
+#    print(sample[1])
+
+x = []
+y = []
+
+for features, label in training_data:
+    x.append(features)
+    y.append(label)
+
+alldata = np.array(x).reshape(-1, IMG_SIZE, IMG_SIZE, 1)
+alldatalabels = np.array(y)
+
+number_of_images = np.shape(alldata)[0]
+train_data, test_data = alldata[0: int(number_of_images*split_factor), :, :, :], alldata[int(number_of_images*split_factor):, :, :, :]
+train_data_labels, test_data_labels = alldatalabels[0:int(number_of_images*split_factor)] ,  alldatalabels[int(number_of_images*split_factor):]
+
+
+
+# pickle för att spara data x och y
+
+pickle_out = open("train.pickle", "wb")
+pickle.dump(train_data, pickle_out)
+pickle_out.close()
+
+pickle_out = open("train_labels.pickle", "wb")
+pickle.dump(train_data_labels, pickle_out)
+pickle_out.close()
+
+pickle_out = open("test.pickle", "wb")
+pickle.dump(test_data, pickle_out)
+pickle_out.close()
+
+pickle_out = open("test_labels.pickle", "wb")
+pickle.dump(test_data_labels, pickle_out)
+pickle_out.close()
+
+print("done")
+#pickle_in = open("x.pickle", "rb")
+#x=pickle.load(pickle_in)
+#x[1]
+
