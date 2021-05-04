@@ -1,4 +1,4 @@
-# Wild_Animals_Recognition
+# Wild Animals Recognition
 
 We have a number of camera traps set up in the swedish forest. Movement triggers
 them and they take an image. 
