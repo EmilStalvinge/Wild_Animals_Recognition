@@ -11,7 +11,8 @@ them and they take an image.
 <img src="https://user-images.githubusercontent.com/50867974/116964539-0ef19d80-acac-11eb-87ba-550813e1ef87.jpg" width="500">
 </p>
 
-## Datasets used
+## A model was first pretrained on around 50k annotated images from different camera trap datasets
+### Datasets used
 <p align="center">
 <img src="https://user-images.githubusercontent.com/50867974/116964938-fa61d500-acac-11eb-85fa-a6dd9dd201c4.png" width="500">
 </p>
@@ -26,3 +27,8 @@ them and they take an image.
 <p align="center">
 <img src="https://user-images.githubusercontent.com/50867974/116965164-75c38680-acad-11eb-8e9d-1860adda6f87.png" width="500">
 </p>
+
+### Then applied to data from our cameras (see images above)
+Transfer learning can be tricky. It is clear that the best model did not work aswell on our own data. While it had a high accuracy on the training and test data-set the introduction of data from a different source made it not work as well. As we had very few samples from our own data we where not able to train it enough to adapt on our cameras.
+We have to wait for more data from our cameras to come.  Another problem can be our simple preprocessing The bounding boxes were of vastly different ratios between height and width. When the images were then resized to a 128x128 or 256x256 square image this would have led to distorted animals as they were stretched or squeezed some into a square.
+
